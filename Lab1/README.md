@@ -5,3 +5,4 @@ To use git:
 * `git commit -a -m "My beautiful commit message"` => create a commit
 * `git push` => push the commit to the origin, which makes it visible to my professors
 
+Teammate contribution notes...
