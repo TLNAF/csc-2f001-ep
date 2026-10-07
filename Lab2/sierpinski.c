@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 int sort_get_index(float tab[], int top, float val)   {
     for (int i = 0; i <= top; i++)   {
@@ -46,9 +47,10 @@ void grid_display(char grid[nb_lines()][nb_columns()])  {
     }
 }
 void plot_point(char grid[nb_lines()][nb_columns()], int x, int y, char pixel)  {
+    if (x >= nb_columns() || y >= nb_lines() || x < 0 || y < 0)   exit(EXIT_FAILURE);
     grid[nb_lines() - y - 1][x] = pixel;
 }
-int main(float argc, char* argv[])    {
+int main(int argc, char* argv[])    {
     char grid[nb_lines()][nb_columns()];
     grid[0][0] = '*';
     grid_init(grid, '*');
