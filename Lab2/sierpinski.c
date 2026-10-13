@@ -73,7 +73,7 @@ void plot_poly_sweep(char grid[nb_lines()][nb_columns()], struct point p[], int 
     printf("sweep %d: ", x);
     int j = nb_pts - 1;
     for (int i = 0; i < nb_pts; i++)    {
-        if ((x >= p[i].x && x <= p[j].x) || (x >= p[j].x && x <= p[i].x))    {
+        if ((p[i].x <= p[j].x && (p[i].x <= x && x < p[j].x)) || (p[j].x <= p[i].x && (p[j].x <= x && x < p[i].x)))    {
             float intersect = p[i].y + (x - p[i].x) * (p[j].y - p[i].y) / (p[j].x - p[i].x);
             sort_insert(vlines, top, intersect);
             top += 1;
