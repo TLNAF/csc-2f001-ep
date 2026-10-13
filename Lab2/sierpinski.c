@@ -67,17 +67,26 @@ void plot_vline(char grid[nb_lines()][nb_columns()], int x, float fy0, float fy1
 }
 
 void plot_poly_sweep(char grid[nb_lines()][nb_columns()], struct point p[], int nb_pts, int x, char pixel)    {
+    float vlines[nb_pts * 4];
+    int top = 0;
+
     printf("sweep %d: ", x);
     int j = nb_pts - 1;
     for (int i = 0; i < nb_pts; i++)    {
         if ((x >= p[i].x && x <= p[j].x) || (x >= p[j].x && x <= p[i].x))    {
             float intersect = p[i].y + (x - p[i].x) * (p[j].y - p[i].y) / (p[j].x - p[i].x);
-            printf("%f ", intersect);
+            sort_insert(vlines, top, intersect);
+            top += 1;
         }
         j = i;
     }
+    for (int j = 0; j < top; j+= 2)   {
+        printf("%f ", vlines[j]);
+        if (j < top - 1)    {
+            plot_vline(grid, x, vlines[j], vlines[j + 1], pixel);
+        }
+    }
     printf("\n");
-    // plot_vline(grid, x, 0, nb_lines() - 1, pixel)
 }
 
 void plot_poly(char grid[nb_lines()][nb_columns()], struct point points[], int nb_pts, char pixel)    {
@@ -91,8 +100,8 @@ int main(int argc, char* argv[])    {
     struct point p[] = {{2, 13}, {10, 13}, {30, 7}, {10, 1}, {2, 1}, {18, 7}};
     int nb_pts = 6;
     grid[0][0] = '*';
-    grid_init(grid, '*');
-    plot_poly(grid, p, nb_pts, '|');
+    grid_init(grid, ' ');
+    plot_poly(grid, p, nb_pts, '-');
     grid_display(grid);
     printf("%d %d\n", nb_columns(), nb_lines());
     return 0;
