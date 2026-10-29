@@ -2,10 +2,10 @@
 #include "monster.h"
 #include <stdlib.h>
 
-struct monster* create_monster(char* name, int hp)  {
+struct monster* create_monster(char name[256], int hp)  {
     struct monster* m = malloc(sizeof(struct monster));
     m->hp = hp;
-    m->name = name;
+    snprintf(m->name, 256, "%s", name);
     return m;
 }
 

@@ -2,10 +2,10 @@
 #define _MONSTER_H_
 struct monster {
     int hp;
-    char* name;
+    char name[256];
 };
 
-struct monster* create_monster(char* name, int hp);
+struct monster* create_monster(char name[256], int hp);
 void display_monster(struct monster* m);
 void delete_monster(struct monster* m);
 
