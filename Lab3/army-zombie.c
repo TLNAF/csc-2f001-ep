@@ -4,41 +4,52 @@
 #include<stdlib.h>
 
 struct army	{
-	struct monster** monsters;
-	int capacity;
+	// Zombie army
+	struct node* head;
+	int cap;
 	int top;
-	int stars;
-};
+	int stars
+}
 
+struct node	{
+	// Linked list of the army
+	struct monster* monst;
+	struct node* nxt;
+}
 
 struct army* create_army(void)	{
+	// Allocating memory for an army of zomb
 	struct army* a = malloc(sizeof(struct army));
-	a->monsters = NULL;
-	a->top = 0;
-	a->capacity = 0;
+	a->head = NULL;
 	a->stars = 0;
 	return a;
 }
 
 void add_monster_to_army(struct army* a, struct monster* m)	{
-	if (a->top >= a->capacity)	{
-		int new_cap = (a->capacity == 0) ? 1 : a->capacity * 2;
-		struct monster** new_m = realloc(a->monsters, new_cap * sizeof(struct monster*));
-		a->monsters = new_m;
-		a->capacity = new_cap;
-	}
-	a->monsters[a->top] = m;
-	a->top++;
+	// Add a monster to an army and extend the array if needed
+	struct node* new_node = malloc(sizeof(struct node));
+	new_node->monst = m;
+	new_node->next = a->head;
+	a->head = new_node;
 }
 
 void display_army(struct army* a)	{
+	if (a == NULL)	return;
 	printf("This is a %d stars army\n", a->stars);
-	for (int i = 0; i < a->top; i++)	{
-		display_monster(a->monsters[i]);
+	struct node* curr = a->head;
+	while (curr != NULL)	{
+		display_monster(curr->monst);
+		curr = curr->next;
 	}
 }
 
 void delete_army(struct army* a)	{
-	free(a->monsters);
-	free(a);
+	if (a == NULL)	return;
+	struct node* curr = a->head;
+	while(curr != NULL)	{
+		struct node* temp = curr;
+		curr = curr->next;
+		free(temp);
+	}
+	free(a)
 }
