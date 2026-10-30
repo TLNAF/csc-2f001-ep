@@ -3,6 +3,12 @@
 #include "army.h"
 #include<stdlib.h>
 
+struct army	{
+	struct monster** monsters;
+	int capacity;
+	int top;
+};
+
 struct army* create_army(void)	{
 	struct army* a = malloc(sizeof(struct army));
 	a->monsters = NULL;
