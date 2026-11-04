@@ -4,12 +4,12 @@
 
 LDFLAGS=
 LIBS=
-CXXFLAGS=-Wall -Werror -g
+CXXFLAGS=-Wall -Werror -g -std=c++20
 BIN=bilbao
 
 all: $(BIN)
 
-bilbao: main.o
+bilbao: main.o location.o shortest_path.o
 	g++ $(LDFLAGS) -o $@ $^ $(LIBS)
 
 %.o: %.cpp 

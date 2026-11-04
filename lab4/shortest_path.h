@@ -17,6 +17,7 @@ struct shortest_path_t  {
     location_t* to; // Destination
 
     shortest_path_t(location_t* from, location_t* to);
+    ~shortest_path_t();
     void compute(); // Compute shortest path from -> to
     void display(); // Display the path, if found
 };

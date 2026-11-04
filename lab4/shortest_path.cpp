@@ -7,7 +7,16 @@ shortest_path_t::shortest_path_t(location_t* from, location_t*to)
         from {from},
         to {to} {
 
-        }
+        };
+
+shortest_path_t::~shortest_path_t() {
+    node_t* curr = head;
+    while (curr != nullptr) {
+        node_t* nxt = curr->next;
+        delete curr;
+        curr = nxt;
+    }
+}
 
 void shortest_path_t::compute()  {
     head = new node_t   {
