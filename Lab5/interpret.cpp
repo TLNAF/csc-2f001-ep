@@ -22,3 +22,12 @@ std::string node_t::to_string() {
 list_t* node_t::as_list() {
   error("Cannot convert to the list");
 }
+
+integer_t::integer_t (uintptr_t v)
+  : val (v) {
+      // Complex implementation
+    }
+
+std::string integer_t::to_string()  {
+  return std::to_string(val);
+}
