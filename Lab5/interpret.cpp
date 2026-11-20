@@ -84,3 +84,17 @@ std::string list_t::to_string() {
   }
   return s + ")";
 }
+
+keyword_t::keyword_t(std::string key)
+  : id  (key) {
+    // Complex implementation
+  }
+
+std::string keyword_t::to_string()  {
+  return "<" + id + ">";
+}
+
+add_t::add_t()
+  : keyword_t("+") {
+    // Complex implementation
+  }

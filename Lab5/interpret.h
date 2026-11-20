@@ -31,4 +31,14 @@ struct list_t : node_t  {
     void append(node_t* value);
     std::string to_string();
 };
+
+struct keyword_t : node_t   {
+    std::string id;
+    keyword_t(std::string key);
+    std::string to_string();
+};
+
+struct add_t : keyword_t    {
+    add_t();
+};
 #endif
