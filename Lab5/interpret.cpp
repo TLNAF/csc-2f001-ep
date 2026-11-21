@@ -168,3 +168,17 @@ node_t* frame_t::get(node_t* sym)  {
   }
   error("The symbol does not exist");
 }
+
+set_t::set_t()
+  : keyword_t("set!") {
+    // Complex implementation
+  }
+
+node_t* set_t::apply(list_t* lst, frame_t* frame) {
+  if (lst->nb_elements != 3)  {
+    error("Wrong number of arguments (must be 3)");
+  }
+  node_t* res = lst->at(2)->eval(frame);
+  frame->set(lst->at(1), res);
+  return res;
+}

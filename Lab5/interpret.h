@@ -60,4 +60,9 @@ struct frame_t : list_t {
     void set(node_t* sym, node_t* value); // Finds the symbol sym in the list and updates its value
     node_t* get(node_t* sym); // Returns the value associated to the symbol sym
 };
+
+struct set_t : keyword_t    {
+    set_t();
+    node_t* apply(list_t* lst, frame_t* frame);
+};
 #endif

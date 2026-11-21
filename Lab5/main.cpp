@@ -59,5 +59,21 @@ int main()  {
 
         std::cout << ast->to_string() << " => " << ast->eval(frame)->to_string() << std::endl;
     }
+
+    {
+        frame_t* frame = new frame_t;
+        list_t* add_expr = new list_t;
+        add_expr->append(new add_t);
+        add_expr->append(new integer_t { 1 });
+        add_expr->append(new integer_t { 2 });
+
+        list_t* set_expr = new list_t;
+        set_expr->append(new set_t);
+        set_expr->append(new symbol_t { "a" });
+        set_expr->append(add_expr);
+
+        std::cout << set_expr->to_string() << " => " << set_expr->eval(frame)->to_string() << std::endl;
+        std::cout << "a = " << frame->get(new symbol_t { "a" })->to_string() << std::endl;
+    }
     return 0;
 }
