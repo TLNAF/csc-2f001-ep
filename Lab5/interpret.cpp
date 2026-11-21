@@ -7,11 +7,11 @@ void error(std::string str) {
   exit(1);
 };
 
-node_t* node_t::eval()  {
+node_t* node_t::eval(frame_t* frame) {
   return this;
 };
 
-node_t* node_t::apply(list_t* lst) {
+node_t* node_t::apply(list_t* lst, frame_t* frame) {
   error("The node is an integer or a list");
 };
 
@@ -97,9 +97,9 @@ std::string list_t::to_string() {
   return s + ")";
 }
 
-node_t* list_t::eval()  {
-  node_t* first = at(0)->eval(); // First element
-  return first->apply(this);
+node_t* list_t::eval(frame_t* frame)  {
+  node_t* first = at(0)->eval(frame); // First element
+  return first->apply(this, frame);
 }
 
 keyword_t::keyword_t(std::string key)
@@ -116,10 +116,10 @@ add_t::add_t()
     // Complex implementation
   }
 
-node_t* add_t::apply(list_t* lst)  {
+node_t* add_t::apply(list_t* lst, frame_t* frame)  {
   uintptr_t sum = 0;
   for (size_t i = 1; i < lst->nb_elements; i++) {
-    sum += lst->at(i)->eval()->int_value();
+    sum += lst->at(i)->eval(frame)->int_value();
   }
   integer_t* final_sum = new integer_t(sum);
   return final_sum;
@@ -136,6 +136,10 @@ bool symbol_t::is(std::string id)  {
 
 std::string symbol_t::to_string() {
   return id;
+}
+
+node_t* symbol_t::eval(frame_t* frame)  {
+  return frame->get(this);
 }
 
 void frame_t::set(node_t* sym, node_t* value) {

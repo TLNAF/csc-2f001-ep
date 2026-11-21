@@ -4,11 +4,12 @@
 #include <string>
 #include <cstdint>
 struct list_t;
+struct frame_t;
 void error(std::string str) __attribute__((noreturn));
 
 struct node_t {
-    virtual node_t* eval();
-    virtual node_t* apply(list_t* lst);
+    virtual node_t* eval(frame_t* frame);
+    virtual node_t* apply(list_t* lst, frame_t* frame);
     virtual std::string to_string();
     virtual list_t* as_list();
     virtual uintptr_t int_value();
@@ -33,7 +34,7 @@ struct list_t : node_t  {
     void set_at(size_t i, node_t* value); // Sets value at the index i
     void append(node_t* value);
     std::string to_string();
-    node_t* eval();
+    node_t* eval(frame_t* frame);
 };
 
 struct keyword_t : node_t   {
@@ -44,7 +45,7 @@ struct keyword_t : node_t   {
 
 struct add_t : keyword_t    {
     add_t();
-    node_t* apply(list_t* lst);
+    node_t* apply(list_t* lst, frame_t* frame);
 };
 
 struct symbol_t : node_t    {
@@ -52,6 +53,7 @@ struct symbol_t : node_t    {
     symbol_t(std::string sym);
     bool is(std::string id);
     std::string to_string();
+    node_t* eval(frame_t* frame);
 };
 
 struct frame_t : list_t {
