@@ -11,7 +11,7 @@ node_t* node_t::eval()  {
   return this;
 };
 
-node_t* node_t::apply(list_t* list) {
+node_t* node_t::apply(list_t* lst) {
   error("The node is an integer or a list");
 };
 
@@ -23,6 +23,10 @@ list_t* node_t::as_list() {
   error("Cannot convert to list");
 }
 
+uintptr_t node_t::int_value() {
+  error("Node is not an integer");
+}
+
 integer_t::integer_t (uintptr_t v)
   : val (v) {
       // Complex implementation
@@ -30,6 +34,10 @@ integer_t::integer_t (uintptr_t v)
 
 std::string integer_t::to_string()  {
   return std::to_string(val);
+}
+
+uintptr_t integer_t::int_value()  {
+  return val;
 }
 
 list_t::list_t()
@@ -85,6 +93,11 @@ std::string list_t::to_string() {
   return s + ")";
 }
 
+node_t* list_t::eval()  {
+  node_t* first = at(0)->eval(); // First element
+  return first->apply(this);
+}
+
 keyword_t::keyword_t(std::string key)
   : id  (key) {
     // Complex implementation
@@ -98,3 +111,13 @@ add_t::add_t()
   : keyword_t("+") {
     // Complex implementation
   }
+
+node_t* add_t::apply(list_t* lst)  {
+  uintptr_t sum = 0;
+  for (size_t i = 1; i < lst->nb_elements; i++) {
+    sum += lst->at(i)->eval()->int_value();
+  }
+  integer_t* final_sum = new integer_t(sum);
+  return final_sum;
+}
+
