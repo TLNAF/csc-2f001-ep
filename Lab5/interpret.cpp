@@ -19,6 +19,10 @@ std::string node_t::to_string() {
   return "???";
 }
 
+bool node_t::is(std::string id) {
+  return false;
+}
+
 list_t* node_t::as_list() {
   error("Cannot convert to list");
 }
@@ -121,3 +125,42 @@ node_t* add_t::apply(list_t* lst)  {
   return final_sum;
 }
 
+symbol_t::symbol_t(std::string sym)
+  : id  (sym) {
+    // Complex implementation
+  }
+
+bool symbol_t::is(std::string id)  {
+  return this->id == id;
+}
+
+std::string symbol_t::to_string() {
+  return id;
+}
+
+void frame_t::set(node_t* sym, node_t* value) {
+  bool found = false;
+  for (size_t i = 0; i < nb_elements; i++)  {
+    if (sym->is(at(i)->as_list()->at(0)->to_string())) {
+      at(i)->as_list()->set_at(1, value);
+      found = true;
+      break;
+    }
+  }
+  if (found == false) {
+    // Creates the symbol and appends it
+    list_t* pair = new list_t;
+    pair->append(sym);
+    pair->append(value);
+    append(pair);
+  } 
+}
+
+node_t* frame_t::get(node_t* sym)  {
+  for (size_t i = 0; i < nb_elements; i++)  {
+    if (sym->is(at(i)->as_list()->at(0)->to_string())) {
+      return at(0)->as_list()->at(1);
+    }
+  }
+  error("The symbol does not exist");
+}

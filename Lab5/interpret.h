@@ -12,6 +12,7 @@ struct node_t {
     virtual std::string to_string();
     virtual list_t* as_list();
     virtual uintptr_t int_value();
+    virtual bool is(std::string id);
 };
 
 struct integer_t : node_t {
@@ -44,5 +45,17 @@ struct keyword_t : node_t   {
 struct add_t : keyword_t    {
     add_t();
     node_t* apply(list_t* lst);
+};
+
+struct symbol_t : node_t    {
+    std::string id;
+    symbol_t(std::string sym);
+    bool is(std::string id);
+    std::string to_string();
+};
+
+struct frame_t : list_t {
+    void set(node_t* sym, node_t* value); // Finds the symbol sym in the list and updates its value
+    node_t* get(node_t* sym); // Returns the value associated to the symbol sym
 };
 #endif
